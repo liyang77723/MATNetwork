@@ -27,7 +27,7 @@ dependencies {
     })
     compile "com.android.support:appcompat-v7:${rootProject.ext.supportLibraryVersion}"
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'cn.meiauto.library:matutils:0.0.2'
+    compile 'cn.meiauto.library:matutils:0.0.5'
     testCompile 'junit:junit:4.12'
     compile project(':matnetwork')
 }

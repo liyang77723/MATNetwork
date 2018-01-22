@@ -133,7 +133,7 @@ public class DownloadService extends Service implements DownloadListener {
             boolean firstComing = true;
 
             @Override
-            public void onBefore(Request request, int flag) {
+            public boolean onBefore(Call call, int flag) {
                 mBuilder = new NotificationCompat.Builder(DownloadService.this, flag + "");
                 mBuilder.setSmallIcon(android.R.drawable.stat_sys_download_done);
                 mNotifyManager.notify(flag, mBuilder.build());
@@ -143,6 +143,7 @@ public class DownloadService extends Service implements DownloadListener {
                 if (mTasks.get(flag).isShowNotify()) {
                     mBuilder.setContentTitle(mTasks.get(flag).getNotifyTitle());
                 }
+                return false;
             }
 
             @Override

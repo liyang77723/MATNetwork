@@ -10,7 +10,6 @@ import java.util.Map;
 
 import cn.meiauto.matnetwork.NetWork;
 import cn.meiauto.matnetwork.callback.BaseCallback;
-import cn.meiauto.matnetwork.exeception.CancelException;
 import cn.meiauto.matnetwork.exeception.RequestException;
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -39,37 +38,40 @@ public class BaseRequest {
 
     //网络请求
     public void execute(final BaseCallback callback) {
-        beforeExecute();
+        checkBeforeExecute();
 
         mCall = NetWork.getInstance().client().newCall(mRequest);
 
-        sendBefore(mRequest, callback);
+        callback.sendBefore(mCall, mId);
 
         mCall.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull final IOException e) {
-                sendError(call, callback, e);
+                callback.sendError(call, mId, e);
             }
 
             @Override
             public void onResponse(@NonNull final Call call, @NonNull final Response response) {
                 try {
                     if (call.isCanceled()) {
-                        sendError(call, callback, new CancelException());
+                        callback.sendAfter(mId);
                         return;
                     }
 
                     if (!response.isSuccessful()) {
-                        sendError(call, callback, new RequestException(String.valueOf(response.code())));
+                        callback.sendError(call, mId, new RequestException(String.valueOf(response.code())));
+                        callback.sendAfter(mId);
                         return;
                     }
 
                     Object o = callback.responseTo(mId, response);
-                    sendResponse(callback, o);
+                    callback.sendResponse(mId, o);
 
                 } catch (IOException e) {
-                    sendError(call, callback, e);
+                    callback.sendError(call, mId, e);
                 } finally {
+
+                    callback.sendAfter(mId);
                     ResponseBody responseBody = response.body();
                     if (responseBody != null) {
                         responseBody.close();
@@ -81,7 +83,7 @@ public class BaseRequest {
 
     @Nullable
     public Response execute() {
-        beforeExecute();
+        checkBeforeExecute();
         mCall = NetWork.getInstance().client().newCall(mRequest);
         try {
             return mCall.execute();
@@ -91,43 +93,14 @@ public class BaseRequest {
         return null;
     }
 
-    private void beforeExecute() {
+    private void checkBeforeExecute() {
         if (TextUtils.isEmpty(mUrl)) {
             throw new NullPointerException("Request url is null. Please check the url param when you are creating Builder.");
         }
         if (mRequest == null) {
             throw new NullPointerException("Request is null. If you are creating custom request, you must override Builder's buildRequest method. You can refer to GetRequest.java.");
         }
-    }
 
-    private void sendBefore(final Request request, final BaseCallback callback) {
-        NetWork.getInstance().handler().post(new Runnable() {
-            @Override
-            public void run() {
-                callback.onBefore(request, mId);
-            }
-        });
-    }
-
-    private void sendResponse(final BaseCallback callback, final Object o) {
-        NetWork.getInstance().handler().post(new Runnable() {
-            @Override
-            public void run() {
-                //noinspection unchecked
-                callback.onResponse(mId, o);
-                callback.onAfter(mId);
-            }
-        });
-    }
-
-    private void sendError(final Call call, final BaseCallback callback, final Exception e) {
-        NetWork.getInstance().handler().post(new Runnable() {
-            @Override
-            public void run() {
-                callback.onError(call, mId, e);
-                callback.onAfter(mId);
-            }
-        });
     }
 
     @SuppressWarnings("WeakerAccess")

@@ -56,5 +56,5 @@ ext {
     allLicenses = ["Apache-2.0"]
 }
 
-apply from: 'https://raw.githubusercontent.com/liyang77723/MATUtils/master/matutils/install.gradle'
-apply from: 'https://raw.githubusercontent.com/liyang77723/MATUtils/master/matutils/bintray.gradle'
+apply from: 'install.gradle'
+apply from: 'bintray.gradle'
