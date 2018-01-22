@@ -30,5 +30,5 @@ dependencies {
 
     provided 'com.squareup.okhttp3:okhttp:3.9.0'
     provided 'com.google.code.gson:gson:2.8.1'
-    provided 'cn.meiauto.library:matutils:0.0.5'
+    provided 'com.github.liyang77723:MATUtils:0.0.1'
 }
