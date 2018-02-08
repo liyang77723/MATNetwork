@@ -1,4 +1,4 @@
-package cn.meiauto.matnetwork.sample;
+package cn.meiauto.matnetwork.util;
 
 import android.text.TextUtils;
 

@@ -3,31 +3,21 @@ package cn.meiauto.matnetwork.sample;
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.text.TextUtils;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
-
-import java.io.IOException;
-
 import cn.meiauto.matnetwork.Result;
-import cn.meiauto.matnetwork.ServerException;
-import cn.meiauto.matutils.LogUtil;
-import io.reactivex.android.schedulers.AndroidSchedulers;
+import cn.meiauto.matnetwork.util.ComposeUtil;
+import cn.meiauto.matnetwork.util.CustomGsonConverterFactory;
+import cn.meiauto.matnetwork.util.RequestInterceptor;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 import io.reactivex.observers.DefaultObserver;
-import io.reactivex.schedulers.Schedulers;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
-import okhttp3.Response;
-import okhttp3.ResponseBody;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
@@ -57,30 +47,7 @@ public class MainActivity extends AppCompatActivity {
 //        loggingInterceptor.setLevel(level);
 
         OkHttpClient client = new OkHttpClient.Builder()
-                .addInterceptor(new Interceptor() {
-                    @Override
-                    public Response intercept(@NonNull Chain chain) throws IOException {
-                        Response response = chain.proceed(chain.request());
-                        int httpCode = response.code();
-                        if (httpCode != 200) {
-                            ResponseBody body = response.body();
-                            if (body == null) {
-                                throw new NullPointerException("response body is null");
-                            } else {
-                                String json = body.string();
-                                if (!TextUtils.isEmpty(json)) {
-                                    LogUtil.warn(json);
-                                    Result result = new Gson().fromJson(json, Result.class);
-                                    throw new ServerException()
-                                            .setHttpCode(httpCode)
-                                            .setErrorCode(result.getErrorCode())
-                                            .setErrorMessage(result.getErrorMessage() + " ( " + result.getExtMessage() + " ).");
-                                }
-                            }
-                        }
-                        return response;
-                    }
-                })
+                .addInterceptor(new RequestInterceptor())
                 .build();
 
 
@@ -130,43 +97,32 @@ public class MainActivity extends AppCompatActivity {
 //                    }
 //                });
 
-        mRequestApi
-                .checkPin("18935028851", sss[oneOrTwo++ % 2])
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-//                .map(new Function<Result, Result>() {
+//        mRequestApi
+//                .checkPin("18935028851", sss[oneOrTwo++ % 2])
+//                .compose(ComposeUtil.<Result>schedulersTransformer())
+//                .doOnSubscribe(new Consumer<Disposable>() {
 //                    @Override
-//                    public Result apply(Result result) throws Exception {
-//                        if (TextUtils.equals(result.getStatus(), "SUCCEED")) {
-//                            return result;
-//                        } else {
-//                            throw new NullPointerException(result.toString());
-//                        }
+//                    public void accept(Disposable disposable) throws Exception {
+//                        mTextView1.setText("loading...");
 //                    }
 //                })
-                .doOnSubscribe(new Consumer<Disposable>() {
-                    @Override
-                    public void accept(Disposable disposable) throws Exception {
-                        mTextView1.setText("loading...");
-                    }
-                })
-                .subscribe(new DefaultObserver<Result>() {
-                    @Override
-                    public void onNext(Result response) {
-                        mTextView2.setText(response.toString());
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        mTextView2.setText(e.toString());
-                        mTextView1.setText("over");
-                    }
-
-                    @Override
-                    public void onComplete() {
-                        mTextView1.setText("over");
-                    }
-                });
+//                .subscribe(new DefaultObserver<Result>() {
+//                    @Override
+//                    public void onNext(Result response) {
+//                        mTextView2.setText(response.toString());
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//                        mTextView2.setText(e.toString());
+//                        mTextView1.setText("over");
+//                    }
+//
+//                    @Override
+//                    public void onComplete() {
+//                        mTextView1.setText("over");
+//                    }
+//                });
 
 
 //        final RequestBody body = RequestBody.create(MediaType.parse("application/json; charset=utf-8"),
