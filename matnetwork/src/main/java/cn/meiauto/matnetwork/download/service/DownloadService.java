@@ -20,7 +20,6 @@ import cn.meiauto.matnetwork.download.NotifyNotifyClickReceiver;
 import cn.meiauto.matnetwork.exeception.CancelException;
 import cn.meiauto.matutils.LogUtil;
 import okhttp3.Call;
-import okhttp3.Request;
 
 public class DownloadService extends Service implements DownloadListener {
 
@@ -124,7 +123,7 @@ public class DownloadService extends Service implements DownloadListener {
     private void download(int id) {
         DownloadMessager.sendInit(this, mDownloadResultIntent, id);
         Task downloadDownloadTask = mTasks.get(id);
-        NetWork.get(downloadDownloadTask.getUrl()).id(id).build().execute(new FileCallback(
+        NetWork.get(downloadDownloadTask.getUrl()).id(id).build().enqueue(new FileCallback(
                 getApplicationContext(),
                 downloadDownloadTask.getFileDir(),
                 downloadDownloadTask.getFileName(),

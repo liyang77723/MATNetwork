@@ -13,7 +13,7 @@ import cn.meiauto.matnetwork.request.PostRequest;
 import static org.junit.Assert.assertEquals;
 
 /**
- * Instrumentation test, which will execute on an Android device.
+ * Instrumentation test, which will enqueue on an Android device.
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */

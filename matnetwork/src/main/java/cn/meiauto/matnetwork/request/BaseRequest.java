@@ -36,8 +36,7 @@ public class BaseRequest {
         }
     }
 
-    //网络请求
-    public void execute(final BaseCallback callback) {
+    public void enqueue(final BaseCallback callback) {
         checkBeforeExecute();
 
         mCall = NetWork.getInstance().client().newCall(mRequest);
@@ -81,7 +80,6 @@ public class BaseRequest {
         });
     }
 
-    @Nullable
     public Response execute() {
         checkBeforeExecute();
         mCall = NetWork.getInstance().client().newCall(mRequest);
@@ -95,10 +93,10 @@ public class BaseRequest {
 
     private void checkBeforeExecute() {
         if (TextUtils.isEmpty(mUrl)) {
-            throw new NullPointerException("Request url is null. Please check the url param when you are creating Builder.");
+            throw new NullPointerException("Request url is null. Please check the url param when you are creating RequestBuilder.");
         }
         if (mRequest == null) {
-            throw new NullPointerException("Request is null. If you are creating custom request, you must override Builder's buildRequest method. You can refer to GetRequest.java.");
+            throw new NullPointerException("Request is null. If you are creating custom request, you must override RequestBuilder's buildRequest method. You can refer to GetRequest.java.");
         }
 
     }

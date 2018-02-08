@@ -7,7 +7,9 @@ import android.os.Looper;
 import cn.meiauto.matnetwork.request.GetRequest;
 import cn.meiauto.matnetwork.request.PostRequest;
 import cn.meiauto.matnetwork.request.PostStringRequest;
+import okhttp3.Call;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
 
 public class NetWork {
 
@@ -18,6 +20,10 @@ public class NetWork {
     private Handler mHandler;//ui线程
 
     private static NetWork sNetWork;
+
+    public Call newCall(Request request) {
+        return mOkHttpClient.newBuilder().build().newCall(request);
+    }
 
     public OkHttpClient client() {
         return mOkHttpClient;
