@@ -5,6 +5,7 @@ import com.google.gson.JsonParseException;
 import org.json.JSONException;
 
 import java.net.ConnectException;
+import java.net.SocketTimeoutException;
 import java.text.ParseException;
 
 import cn.meiauto.matnetwork.ServerException;
@@ -56,6 +57,9 @@ public class ExceptionEngine {
             serverException.setErrorMessage(message);  //均视为网络错误
         } else if (e instanceof ServerException) {
             return (ServerException) e;
+        } else if (e instanceof SocketTimeoutException) {
+            serverException.setErrorCode(String.valueOf(ERROR.NETWORD_ERROR));
+            serverException.setErrorMessage("网络错误");
         } else if (e instanceof JsonParseException
                 || e instanceof JSONException
                 || e instanceof ParseException) {

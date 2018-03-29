@@ -41,8 +41,8 @@ public interface RequestApi {
     Observable<Result<SendCommandData>> sendCommand(@Header("appId") String appId, @Body RequestBody body);
 
     @Headers({
-            "Content-Type: application/json"
-            , "Accept: application/json"
+            "Content-Type: application/json",
+            "Accept: application/json"
     })
     @POST("user-remote/sendCommand")
     Observable<Result> sendCommand(@Header("appId") String appId, @HeaderMap Map map);
