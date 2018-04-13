@@ -27,6 +27,6 @@ dependencies {
     })
     testCompile 'junit:junit:4.12'
 
-    implementation 'com.github.liyang77723:MATUtils:-SNAPSHOT'
+    implementation 'com.github.liyang77723:MATUtils:0.0.8'
     implementation 'com.github.liyang77723:MATCommon:-SNAPSHOT'
 }
