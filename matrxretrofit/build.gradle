@@ -1,31 +1,30 @@
-apply plugin: 'com.android.application'
+apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 26
-    buildToolsVersion '26.0.2'
+    compileSdkVersion 27
+
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 26
+        targetSdkVersion 27
         versionCode 1
         versionName "1.0"
 
-        applicationId "cn.meiauto.matnetwork.sample"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
 
-    implementation 'com.github.liyang77723:MATCommon:0.0.3'
     implementation 'com.github.liyang77723:MATUtils:0.0.8'
-
-    compile project(':matnetwork')
-    compile project(':matrxretrofit')
+    implementation 'com.github.liyang77723:MATCommon:0.0.3'
 }
