@@ -7,7 +7,7 @@ package cn.meiauto.matrxretrofit.base.result;
  * email  : yang.li@nx-engine.com
  * time   : 2018/5/3
  */
-public class BaseDataResult<DATA> extends BaseResult {
+public class MATResult<DATA> extends BaseResult {
 
     public DATA data;
 

@@ -11,7 +11,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import cn.meiauto.matrxretrofit.base.observer.BaseObserver;
-import cn.meiauto.matrxretrofit.base.result.BaseDataResult;
+import cn.meiauto.matrxretrofit.base.result.MATResult;
 import cn.meiauto.matrxretrofit.util.ComposeUtil;
 import cn.meiauto.matrxretrofit.util.CustomGsonConverterFactory;
 import cn.meiauto.matrxretrofit.util.ExceptionHandler;
@@ -59,10 +59,10 @@ public class MainActivity extends AppCompatActivity {
 
         mRetrofit.create(ApiGet.class)
                 .queryUser()
-                .compose(ComposeUtil.<BaseDataResult<ApiGet.QueryUserData>>schedulersTransformer())
-                .subscribe(new BaseObserver<BaseDataResult<ApiGet.QueryUserData>>() {
+                .compose(ComposeUtil.<MATResult<ApiGet.QueryUserData>>schedulersTransformer())
+                .subscribe(new BaseObserver<MATResult<ApiGet.QueryUserData>>() {
                     @Override
-                    public void onNext(BaseDataResult<ApiGet.QueryUserData> queryUserDataBaseDataResult) {
+                    public void onNext(MATResult<ApiGet.QueryUserData> queryUserDataBaseDataResult) {
                         super.onNext(queryUserDataBaseDataResult);
                         LogUtil.debug("onNext() called with: queryUserDataBaseDataResult = [" + queryUserDataBaseDataResult + "]");
                     }

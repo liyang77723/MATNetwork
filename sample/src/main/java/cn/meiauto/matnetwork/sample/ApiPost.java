@@ -1,6 +1,6 @@
 package cn.meiauto.matnetwork.sample;
 
-import cn.meiauto.matrxretrofit.base.result.BaseDataResult;
+import cn.meiauto.matrxretrofit.base.result.MATResult;
 import io.reactivex.Observable;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
@@ -12,7 +12,7 @@ import retrofit2.http.Query;
  */
 public interface ApiPost {
     @POST("user/account/login")
-    Observable<BaseDataResult<LoginData>> login(
+    Observable<MATResult<LoginData>> login(
             @Query("username") String phone,
             @Query("password") String password,
             @Query("device.deviceId") String deviceId

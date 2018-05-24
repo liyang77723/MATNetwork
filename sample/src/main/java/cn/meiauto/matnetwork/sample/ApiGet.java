@@ -1,9 +1,8 @@
 package cn.meiauto.matnetwork.sample;
 
-import cn.meiauto.matrxretrofit.base.result.BaseDataResult;
+import cn.meiauto.matrxretrofit.base.result.MATResult;
 import io.reactivex.Observable;
 import retrofit2.http.GET;
-import retrofit2.http.Query;
 
 /**
  * author : LiYang
@@ -13,7 +12,7 @@ import retrofit2.http.Query;
 public interface ApiGet {
 
     @GET("user/account/queryUser")
-    Observable<BaseDataResult<QueryUserData>> queryUser();
+    Observable<MATResult<QueryUserData>> queryUser();
 
     class QueryUserData {
 

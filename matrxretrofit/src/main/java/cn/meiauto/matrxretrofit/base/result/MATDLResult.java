@@ -4,14 +4,15 @@ import java.util.Arrays;
 import java.util.List;
 
 /**
- * contain list only
+ * contain data and list
  * <p>
  * author : LiYang
  * email  : yang.li@nx-engine.com
  * time   : 2018/5/3
  */
-public class BaseListResult<DATAS> extends BaseResult {
+public class MATDLResult<DATA, DATAS> extends BaseResult {
 
+    public DATA data;
     public List<DATAS> datas;
 
     public int pageCount;
@@ -21,7 +22,8 @@ public class BaseListResult<DATAS> extends BaseResult {
 
     @Override
     public String toString() {
-        return "↓BaseListResult↓" +
+        return "↓BaseDLResult↓" +
+                "\n    data=" + data +
                 "\n    datas=" + Arrays.toString(datas.toArray()) +
                 "\n    pageCount=" + pageCount +
                 "\n    pageIndex=" + pageIndex +
@@ -31,6 +33,6 @@ public class BaseListResult<DATAS> extends BaseResult {
                 "\n    errorCode=" + errorCode +
                 "\n    errorMessage=" + errorMessage +
                 "\n    extMessage=" + extMessage +
-                "\n↑BaseListResult↑";
+                "\n↑BaseDLResult↑";
     }
 }

@@ -65,7 +65,8 @@ public class RequestInterceptor implements Interceptor {
     }
 
     private void log(Request request, String json) {
-        StringBuilder stringBuilder = new StringBuilder("----------------start----------------\n");
+        StringBuilder stringBuilder =
+                new StringBuilder("----------------start----------------\n");
         stringBuilder
                 .append("method: ").append(request.method()).append("\n")
                 .append("url: ").append(request.url()).append("\n");
