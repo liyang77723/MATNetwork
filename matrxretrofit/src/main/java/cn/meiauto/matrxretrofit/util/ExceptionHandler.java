@@ -17,6 +17,8 @@ public class ExceptionHandler {
     private static final int SERVICE_UNAVAILABLE = 503;
     private static final int GATEWAY_TIMEOUT = 504;
 
+    private ExceptionHandler(){}
+
     public static ServerException handle(Throwable e) {
         ServerException serverException;
         if (e instanceof HttpException) {

@@ -68,7 +68,9 @@ public class ServerException extends RuntimeException {
 
     @Override
     public String toString() {
-        mThrowable.printStackTrace();
+        if (mThrowable != null) {
+            mThrowable.printStackTrace();
+        }
         return "\n↓ServerException↓" +
                 "\n    mHttpCode=" + mHttpCode +
                 "\n    mErrorCode=" + mErrorCode +
