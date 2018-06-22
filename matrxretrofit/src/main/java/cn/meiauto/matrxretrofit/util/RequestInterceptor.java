@@ -12,8 +12,10 @@ import cn.meiauto.matutils.LogUtil;
 import okhttp3.Headers;
 import okhttp3.Interceptor;
 import okhttp3.Request;
+import okhttp3.RequestBody;
 import okhttp3.Response;
 import okhttp3.ResponseBody;
+import okio.Buffer;
 
 /**
  * author : LiYang
@@ -67,9 +69,27 @@ public class RequestInterceptor implements Interceptor {
     private void log(Request request, String json) {
         StringBuilder stringBuilder =
                 new StringBuilder("----------------start----------------\n");
-        stringBuilder
-                .append("method: ").append(request.method()).append("\n")
-                .append("url: ").append(request.url()).append("\n");
+
+        String method = request.method();
+
+        stringBuilder.append("method: ").append(method).append("\n");
+//        if (TextUtils.equals("POST", method)) {
+//            if (request.body() instanceof FormBody) {
+//                FormBody body = (FormBody) request.body();
+//                if (body != null) {
+//                    for (int i = 0; i < body.size(); i++) {
+//                        stringBuilder.append("    ")
+//                                .append(body.encodedName(i))
+//                                .append("=")
+//                                .append(body.encodedValue(i))
+//                                .append("\n");
+//                    }
+//                }
+//            }
+//        }
+
+        stringBuilder.append(bodyToString(request));
+        stringBuilder.append("url: ").append(request.url()).append("\n");
 
         Headers headers = request.headers();
         stringBuilder.append("headers:");
@@ -85,5 +105,25 @@ public class RequestInterceptor implements Interceptor {
                 .append("-----------------end-----------------");
 
         LogUtil.verbose(stringBuilder);
+    }
+
+    protected String bodyToString(final Request request) {
+        try {
+            final Request copy = request.newBuilder().build();
+            RequestBody body = copy.body();
+            if (body == null) {
+                return "";
+            }
+            final Buffer buffer = new Buffer();
+            body.writeTo(buffer);
+            String bodyStr = buffer.readUtf8();
+            return TextUtils.isEmpty(bodyStr) ? "" : bodyStr + "\n";
+        } catch (final IOException e) {
+            return "";
+        }
+    }
+
+    protected boolean isPostString(final Request request) {
+        return request.newBuilder().build().body() == null;
     }
 }

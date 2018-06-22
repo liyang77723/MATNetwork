@@ -10,14 +10,20 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
+import cn.meiauto.matrxretrofit.base.observer.BaseErrorObserver;
 import cn.meiauto.matrxretrofit.base.observer.BaseObserver;
+import cn.meiauto.matrxretrofit.base.result.BaseResult;
 import cn.meiauto.matrxretrofit.base.result.MATResult;
 import cn.meiauto.matrxretrofit.util.ComposeUtil;
 import cn.meiauto.matrxretrofit.util.CustomGsonConverterFactory;
 import cn.meiauto.matrxretrofit.util.ExceptionHandler;
 import cn.meiauto.matrxretrofit.util.RequestInterceptor;
 import cn.meiauto.matutils.LogUtil;
+import okhttp3.MediaType;
 import okhttp3.OkHttpClient;
+import okhttp3.RequestBody;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
@@ -53,10 +59,11 @@ public class MainActivity extends AppCompatActivity {
                 .build();
     }
 
-    public void requestBaidu(View view) {
-        mTextView1.setText("start");
-        mTextView2.setText("");
+    public void toast(String text) {
+        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+    }
 
+    public void onGet(View view) {
         mRetrofit.create(ApiGet.class)
                 .queryUser()
                 .compose(ComposeUtil.<MATResult<ApiGet.QueryUserData>>schedulersTransformer())
@@ -73,10 +80,22 @@ public class MainActivity extends AppCompatActivity {
                         toast(ExceptionHandler.handle(e).getErrorMessage());
                     }
                 });
-
     }
 
-    public void toast(String text) {
-        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
+    public void onPost(View view) {
+        mRetrofit.create(ApiPost.class)
+                .login("18dadasd", "adasd", "dasda")
+                .compose(ComposeUtil.<MATResult<ApiPost.LoginData>>schedulersTransformer())
+                .subscribe(new BaseErrorObserver<MATResult<ApiPost.LoginData>>(MainActivity.this));
+    }
+
+    public void onPostString(View view) {
+        final RequestBody body = RequestBody.create(
+                MediaType.parse("application/json; charset=utf-8"),
+                new Gson().toJson(new ApiPostString.UpdateFence("", "", 0, 0, 0, 0, 0, 0, "", "", "")));
+        mRetrofit.create(ApiPostString.class)
+                .updateFence(body)
+                .compose(ComposeUtil.<BaseResult>schedulersTransformer())
+                .subscribe(new BaseErrorObserver<BaseResult>(MainActivity.this));
     }
 }

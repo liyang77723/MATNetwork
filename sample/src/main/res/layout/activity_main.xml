@@ -13,8 +13,23 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:onClick="requestBaidu"
-        android:text="REQUEST"
+        android:onClick="onGet"
+        android:text="GET"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:onClick="onPost"
+        android:text="POST"
+        />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:onClick="onPostString"
+        android:text="POST STRING"
         />
 
     <TextView
