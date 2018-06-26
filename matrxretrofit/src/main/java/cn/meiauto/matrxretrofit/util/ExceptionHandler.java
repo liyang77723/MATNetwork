@@ -17,7 +17,8 @@ public class ExceptionHandler {
     private static final int SERVICE_UNAVAILABLE = 503;
     private static final int GATEWAY_TIMEOUT = 504;
 
-    private ExceptionHandler(){}
+    private ExceptionHandler() {
+    }
 
     public static ServerException handle(Throwable e) {
         ServerException serverException;
@@ -72,6 +73,6 @@ public class ExceptionHandler {
     }
 
     private static ServerException other2ServerEx(Throwable e) {
-        return new ServerException().throwable(e).errorMessage("请求错误，请重试");
+        return new ServerException().throwable(e);
     }
 }

@@ -15,11 +15,6 @@ public abstract class BaseObserver<T> implements Observer<T> {
     }
 
     @Override
-    public void onNext(T t) {
-
-    }
-
-    @Override
     public void onError(Throwable e) {
 
     }

@@ -1,4 +1,4 @@
-package cn.meiauto.matrxretrofit;
+package cn.meiauto.matnetwork.sample;
 
 import java.util.concurrent.TimeUnit;
 

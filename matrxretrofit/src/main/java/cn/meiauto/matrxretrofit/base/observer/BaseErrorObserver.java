@@ -13,7 +13,7 @@ import cn.meiauto.matutils.LogUtil;
  * email  : yang.li@nx-engine.com
  * time   : 2018/5/4
  */
-public class BaseErrorObserver<T> extends BaseObserver<T> {
+public abstract class BaseErrorObserver<T> extends BaseObserver<T> {
     private Context mContext;
 
     public BaseErrorObserver(Context context) {
@@ -25,8 +25,9 @@ public class BaseErrorObserver<T> extends BaseObserver<T> {
         ServerException exception = ExceptionHandler.handle(e);
         LogUtil.error(exception);
         String errorMessage = exception.getErrorMessage();
-        if (!TextUtils.isEmpty(errorMessage)){
-            Toast.makeText(mContext,errorMessage , Toast.LENGTH_SHORT).show();
+        if (!TextUtils.isEmpty(errorMessage)) {
+            errorMessage = "服务器错误(" + errorMessage + ")";
+            Toast.makeText(mContext, errorMessage, Toast.LENGTH_SHORT).show();
         }
     }
 }

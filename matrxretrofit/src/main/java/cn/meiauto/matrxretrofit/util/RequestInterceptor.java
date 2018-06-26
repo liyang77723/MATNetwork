@@ -51,14 +51,9 @@ public class RequestInterceptor implements Interceptor {
 
         if (TextUtils.equals(result.status, "FAILED")) {
             String code = result.errorCode;
-            if (code.contains("SYS")) {
-                throw new ServerException().errorCode(code)
-                        .errorMessage(result.extMessage);
-            } else {
-                throw new ServerException().errorCode(code)
-                        .errorMessage(result.errorMessage)
-                        .extMessage(result.extMessage);
-            }
+            throw new ServerException().errorCode(code)
+                    .errorMessage(result.errorMessage)
+                    .extMessage(result.extMessage);
         }
 
         return response.newBuilder()
