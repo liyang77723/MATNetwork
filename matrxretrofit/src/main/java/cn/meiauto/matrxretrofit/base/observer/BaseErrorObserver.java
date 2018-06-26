@@ -24,9 +24,15 @@ public abstract class BaseErrorObserver<T> extends BaseObserver<T> {
     public void onError(Throwable e) {
         ServerException exception = ExceptionHandler.handle(e);
         LogUtil.error(exception);
+        String errorCode = exception.getErrorCode();
         String errorMessage = exception.getErrorMessage();
+
         if (!TextUtils.isEmpty(errorMessage)) {
-            errorMessage = "服务器错误(" + errorMessage + ")";
+            if (!TextUtils.isEmpty(errorCode)) {
+                if (errorCode.contains("SYS")) {
+                    errorMessage = "服务器错误，" + errorMessage + "(" + exception.getExtMessage() + ")";
+                }
+            }
             Toast.makeText(mContext, errorMessage, Toast.LENGTH_SHORT).show();
         }
     }

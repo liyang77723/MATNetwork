@@ -36,7 +36,7 @@ public class RequestInterceptor implements Interceptor {
         String json = body.string();
 
         if (TextUtils.isEmpty(json)) {
-            throw new ServerException().errorMessage("服务器错误");
+            throw new ServerException().errorMessage("服务器错误，返回json为空");
         }
 
         log(request, json);
@@ -50,8 +50,8 @@ public class RequestInterceptor implements Interceptor {
         }
 
         if (TextUtils.equals(result.status, "FAILED")) {
-            String code = result.errorCode;
-            throw new ServerException().errorCode(code)
+            throw new ServerException()
+                    .errorCode(result.errorCode)
                     .errorMessage(result.errorMessage)
                     .extMessage(result.extMessage);
         }
