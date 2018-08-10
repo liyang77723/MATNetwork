@@ -1,5 +1,6 @@
 package cn.meiauto.matrxretrofit.util;
 
+import java.net.ConnectException;
 import java.net.SocketTimeoutException;
 import java.net.UnknownHostException;
 
@@ -27,7 +28,7 @@ public class ExceptionHandler {
             serverException = http2ServerEx((HttpException) e);
         } else if (e instanceof ServerException) {
             serverException = (ServerException) e;
-        } else if (e instanceof UnknownHostException) {
+        } else if (e instanceof UnknownHostException || e instanceof ConnectException) {
             serverException = new ServerException().errorMessage("网络错误，请检查后重试");
         } else if (e instanceof SocketTimeoutException) {
             serverException = new ServerException().errorMessage("请求超时，请重试");
